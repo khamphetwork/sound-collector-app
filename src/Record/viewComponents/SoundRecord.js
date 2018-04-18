@@ -23,6 +23,7 @@ var allWords = [
 export default class SoundRecord extends Component {
 
 	state = {
+        allRecordedSound: [],
 		blobURL: null,
 		record: false,
 		wordname: '',
@@ -30,13 +31,52 @@ export default class SoundRecord extends Component {
         files: [],
         count: 3,
         showCount: false,
+        allWords: allWords,
+        showWord: false,
+        word: ''
     }
     
     handleClickStartRecord = () => {
         this.countdown(() => {
-            console.log('record treuuuuuuuu')
-            // this.setState({ record: true })
+
+            this.recordForOneWord()
+
         })
+
+    }
+
+    recordForOneWord() {
+        if (this.state.allWords[0]) {
+            console.log('...in here ')
+
+            let words = this.state.allWords
+
+            let wordShow = words.splice(0, 1)
+
+            this.setState({
+                record: true,
+                showWord: true,
+                word: wordShow,
+                allWords: words
+            })
+            setTimeout(() => {
+
+                this.setState({
+                    record: false,
+                    showWord: false,
+                    word: ''
+                })
+
+                console.log('remain sound ', typeof (this.state.allWords))
+
+                setTimeout(() => {
+                    this.recordForOneWord()
+                }, 1000)
+
+            }, 1000)
+        } else {
+            console.log('...all recorded ', this.state.allRecordedSound)
+        }
 
     }
 
@@ -58,24 +98,16 @@ export default class SoundRecord extends Component {
 		this.setState({wordname: `test`})
 		console.log('blob array: ', [recordedBlob.blob])
 		var file = new File([recordedBlob.blob], { type: "audio/wav"});
-		var url = `/upload/${this.state.wordname}/${this.state.filename}`
-		this.xhr(url, file);
+        
+        let t_allRecordedSound = this.state.allRecordedSound
+        t_allRecordedSound.push(file)
+
+        this.setState({
+            allRecordedSound: t_allRecordedSound
+        })
+
 	}
 
-		// let tmpLink = document.createElement('a')
-		// tmpLink.href = blob.blobURL
-		// tmpLink.setAttribute('download', 'test1.wav')
-		// tmpLink.click()
-
-	// XHR2/FormData
-	xhr(url, data) {
-		var request = new XMLHttpRequest();
-		request.open('POST', url);
-		var formData = new FormData();
-		formData.append('file', data);
-		request.send(formData);
-    }
-    
     countdown(callback) {
         this.setState({
             count: 3,
@@ -88,12 +120,16 @@ export default class SoundRecord extends Component {
                 this.setState({ count: 1 })
 
                 setTimeout(() => {
-                    this.setState({
-                        count: 0,
-                        showCount: false
-                    })
+                    this.setState({ count: 0 })
 
-                    return callback()
+                    setTimeout(() => {
+                        this.setState({
+                            showCount: false
+                        })
+
+                        return callback()
+
+                    }, 1000);
 
                 }, 1000);
 
@@ -111,18 +147,24 @@ export default class SoundRecord extends Component {
                         {this.state.count}
                     </div> : null
                 }
+                {
+                    (this.state.showWord)? 
+                    <div className="row">
+                        {this.state.word}
+                    </div> : null
+                }
 				<div className="d-flex row" style={{height: 100 + 'px'}}>
 					<ReactHandleRecord
-		            className="oscilloscope w-100 h-100"
-		            record={this.state.record}
-		            backgroundColor="#0275d8"
-		            visualSetting="sinewave"
-		            audioBitsPerSecond= {512000}
-					onStop={this.onStop}
-					filename={this.state.filename}
-		            onStart={this.onStart}
-		            strokeColor="#ffffff"
-		        />
+                        className="oscilloscope w-100 h-100"
+                        record={this.state.record}
+                        backgroundColor="#0275d8"
+                        visualSetting="sinewave"
+                        audioBitsPerSecond= {512000}
+                        onStop={this.onStop}
+                        filename={this.state.filename}
+                        onStart={this.onStart}
+                        strokeColor="#ffffff"
+                    />
 				</div>
 				<br />
 				<div className="d-flex row justify-content-center">
