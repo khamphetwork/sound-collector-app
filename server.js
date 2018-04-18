@@ -10,4 +10,8 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(PORT);
+app.listen(PORT, (error) => {
+    if (error) throw error
+
+    console.log('> Ready on port: ', PORT)
+});
