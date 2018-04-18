@@ -11,7 +11,7 @@
     "react-scripts": "1.1.1"
   },
   "scripts": {
-    "start": "NODE_ENV=production node ./server.js",
+    "start": "NODE_ENV=production node ./server/server.js",
     "dev": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
