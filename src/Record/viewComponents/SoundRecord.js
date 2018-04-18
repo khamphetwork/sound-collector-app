@@ -138,6 +138,13 @@ export default class SoundRecord extends Component {
                     console.log('upload error ', msg)
                 } else {
                     console.log('snap ', snapshot)
+
+                    if (i === (all.length - 1)) {
+
+                        window.alert("Uploaded!")
+
+                        window.location.reload()
+                    }
                 }
             })
             
