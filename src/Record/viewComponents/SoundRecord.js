@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {ReactHandleRecord} from '../react-record'
-import 'isomorphic-fetch'
 
-var allWords = [
+import { soundUpload } from "../../firebase/uploadSound";
+
+const allWords = [
     'ສະບາຍດີ',
     'ຂ້ອຍ',
     'ກິນ'
@@ -24,7 +25,6 @@ export default class SoundRecord extends Component {
 
 	state = {
         allRecordedSound: [],
-		blobURL: null,
 		record: false,
 		wordname: '',
         filename: '',
@@ -33,7 +33,8 @@ export default class SoundRecord extends Component {
         showCount: false,
         allWords: allWords,
         showWord: false,
-        word: ''
+        word: '',
+        justFinishedWord: ''
     }
     
     handleClickStartRecord = () => {
@@ -57,14 +58,15 @@ export default class SoundRecord extends Component {
                 record: true,
                 showWord: true,
                 word: wordShow,
-                allWords: words
+                allWords: words,
             })
             setTimeout(() => {
 
                 this.setState({
                     record: false,
                     showWord: false,
-                    word: ''
+                    word: '',
+                    justFinishedWord: wordShow
                 })
 
                 console.log('remain sound ', typeof (this.state.allWords))
@@ -89,9 +91,6 @@ export default class SoundRecord extends Component {
 	}
 
 	onStop = (recordedBlob) => {
-		this.setState({
-			blobURL: recordedBlob.blobURL
-		})
 		console.log('recordedBlob is: ', recordedBlob)
 		
 		this.setState({ filename: `test-${Date.now()}` })
@@ -100,13 +99,50 @@ export default class SoundRecord extends Component {
 		var file = new File([recordedBlob.blob], { type: "audio/wav"});
         
         let t_allRecordedSound = this.state.allRecordedSound
-        t_allRecordedSound.push(file)
+        t_allRecordedSound.push({
+            file: file,
+            blobURL: recordedBlob.blobURL,
+            word: this.state.justFinishedWord
+        })
 
         this.setState({
             allRecordedSound: t_allRecordedSound
         })
 
-	}
+    }
+    
+    wordRemove(word, index) {
+        let t_allWords = this.state.allWords
+        let t_allRecordedSound = this.state.allRecordedSound
+
+        let removedWord = t_allRecordedSound.splice(index, 1)
+
+        t_allWords.push(word)
+
+        this.setState({
+            allWords: t_allWords,
+            allRecordedSound: t_allRecordedSound
+        })
+    }
+
+    submitSound() {
+        let all = this.state.allRecordedSound
+        for (let i = 0; i < all.length; i++) {
+
+            let file = all[i].file
+            let dirName = all[i].word
+            let fileName = all[i].word + (new Date().getTime())
+
+            soundUpload(file, dirName, fileName, (snapshot, error, msg) => {
+                if (error) {
+                    console.log('upload error ', msg)
+                } else {
+                    console.log('snap ', snapshot)
+                }
+            })
+            
+        }
+    }
 
     countdown(callback) {
         this.setState({
@@ -139,20 +175,23 @@ export default class SoundRecord extends Component {
     }
 
 	render() {
+
+        let allRecordedSound = this.state.allRecordedSound
+
 		return (
 			<div>
-                {
-                    (this.state.showCount)? 
-                    <div className="row">
-                        {this.state.count}
-                    </div> : null
-                }
-                {
-                    (this.state.showWord)? 
-                    <div className="row">
-                        {this.state.word}
-                    </div> : null
-                }
+                <div className="row justify-content-center align-self-center" style={{minHeight: '100px'}}>
+                    {
+                        (this.state.showCount)? 
+                            <h2>{this.state.count}</h2> : null
+                    }
+                    {
+                        (this.state.showWord)? 
+                            <h2>{this.state.word}</h2> : null
+                    }
+                </div>
+                
+                <br/>
 				<div className="d-flex row" style={{height: 100 + 'px'}}>
 					<ReactHandleRecord
                         className="oscilloscope w-100 h-100"
@@ -182,15 +221,50 @@ export default class SoundRecord extends Component {
 						ເລີ່ມ
 					</button>
 					
-					<button 
+					{/* <button 
 						type="button"
 						className="btn btn-lg btn-secondary col-md" 
 						onClick={this.stopRecording} 
 						disabled={(this.state.record) ? '' : 'true'}
 					>
 						ຢຸດ
-					</button>
+					</button> */}
 				</div>
+                <br/>
+                <br/>
+                <hr/>
+                <br/>
+
+                <div className="row justify-content-center">
+                    <div className="col-12 container-fluid">
+                        {
+                            allRecordedSound.map((sound, index) => {
+
+                                console.log('iii ', sound)
+
+                                return (
+                                    <div key={index} className="row justify-content-center mb-3">
+                                        <h5>{sound.word[0] + ": "} &nbsp; </h5>
+                                        <audio ref="audioSource" controls="controls" src={sound.blobURL}></audio>
+                                        &nbsp;
+                                        <button className="btn-warning btn" onClick={() => { this.wordRemove(sound.word[0] ,index)}} >ລຶບ</button>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                </div>
+                <br/>
+
+                {
+                    (!this.state.allWords[0])?
+                    <div className="row justify-content-center">
+                        <button className="btn btn-success" onClick={this.submitSound.bind(this)}>
+                            ສຳເລັດ
+                        </button>
+                    </div> : null
+                }
+
 			</div>
 		)
 	}

@@ -14,7 +14,7 @@ export default class RecordPage extends Component {
 				<div>
 					<div className="row justify-content-center">ກົດປຸ່ມ "ເລີ່ມ" ເພື່ອເລີ່ມການບັນທຶກ.</div>
 					<div className="row justify-content-center">ອ່ານເທື່ອລະຄຳຕາມທີ່ສະແດງອອກມາຢູ່ຂ້າງລຸ່ມ.</div>
-					<div className="row justify-content-center">ກົດ "ຢຸດ" ເພື່ອຢຸດການບັນທຶກຊົ່ວຄາວ.</div>
+					<div className="row justify-content-center">ແຕ່ລະຄຳຈະບັນທຶກເປັນເວລາ 1ວິນາທີ.</div>
 					<div className="row justify-content-center">ເມື່ອອັດສຽງໝົດແລ້ວ ກະລຸນາກົດປຸ່ມ "ສຳເລັດ" ເພື່ອສຳເລັດການບັນທຶກສຽງ.</div>
 					<div className="row justify-content-center">ທ່ານສາມາດກວດສອບການບັນທຶກແຕ່ລະຄຳຂອງທ່ານ ແລະ ສາມາດລຶບ ແລ້ວບັນທຶກໃໝ່.</div>
 				</div>			

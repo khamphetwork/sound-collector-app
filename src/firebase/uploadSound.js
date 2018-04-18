@@ -1,5 +1,11 @@
 import firebase from 'firebase'
 
+import config from './config'
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(config)
+}
+
 const storageRef = firebase.storage().ref()
 /**
  * soundUpload
@@ -12,7 +18,7 @@ const storageRef = firebase.storage().ref()
  */
 export const soundUpload = (file, directoryName, fileName, callback) => {
 
-    let fname = filename + Date.now().toString()
+    let fname = fileName + Date.now().toString()
 
     let metadata = {
         contentType: file.type
