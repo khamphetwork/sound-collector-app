@@ -4,6 +4,7 @@ const analyser = audioCtx.createAnalyser();
 const AudioContext  = {
 
   getAudioContext() {
+    console.log('sam rate ', audioCtx)
     return audioCtx;
   },
 

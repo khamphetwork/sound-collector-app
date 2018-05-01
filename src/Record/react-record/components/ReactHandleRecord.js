@@ -109,7 +109,7 @@ ReactHandleRecord.defaultProps = {
   strokeColor       : '#000000',
   className         : 'visualizer',
   audioBitsPerSecond: 256000,
-  mimeType          : 'audio/wave',
+  mimeType          : "audio/webm; codecs=opus",
   record            : false,
   width             : 500,
   height            : 100,

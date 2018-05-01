@@ -213,7 +213,7 @@ export default class SoundRecord extends Component {
                         record={this.state.record}
                         backgroundColor="#0275d8"
                         visualSetting="sinewave"
-                        audioBitsPerSecond= {512000}
+                        audioBitsPerSecond= {256000}
                         onStop={this.onStop}
                         filename={this.state.filename}
                         onStart={this.onStart}
