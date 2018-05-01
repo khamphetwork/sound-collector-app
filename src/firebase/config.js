@@ -1,8 +1,8 @@
 export default {
-    apiKey: "AIzaSyCSKHw1C5aCIfOxfW0Jasf5gQVsW0qNt1s",
-    authDomain: "personal-firebase-4bd2d.firebaseapp.com",
-    databaseURL: "https://personal-firebase-4bd2d.firebaseio.com",
-    projectId: "personal-firebase-4bd2d",
-    storageBucket: "personal-firebase-4bd2d.appspot.com",
-    messagingSenderId: "705298102799"
+    apiKey: "AIzaSyAuke8tTIwewWDZxz46XvTl4MFPWxEZMJI",
+    authDomain: "thesis-project-9a7f9.firebaseapp.com",
+    databaseURL: "https://thesis-project-9a7f9.firebaseio.com",
+    projectId: "thesis-project-9a7f9",
+    storageBucket: "thesis-project-9a7f9.appspot.com",
+    messagingSenderId: "427879179472"
 }
