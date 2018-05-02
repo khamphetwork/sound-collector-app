@@ -4,17 +4,17 @@ import {ReactHandleRecord} from '../react-record'
 import { soundUpload } from "../../firebase/uploadSound";
 
 const allWords = [
-    '0',
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
+    'ສູນ',
+    'ຫນຶ່ງ',
+    'ສອງ',
+    'ສາມ',
+    'ສີ່',
+    'ຫ້າ',
+    'ຫົກ',
+    'ເຈັດ',
+    'ແປດ',
+    'ເກົ້າ',
+    'ສິບ',
 ]
 
 /*
