@@ -21,7 +21,7 @@ export const soundUpload = (file, directoryName, fileName, callback) => {
     let fname = fileName + Date.now().toString()
 
     let metadata = {
-        contentType: file.type
+        contentType: "audio/webm"
     }
 
     storageRef.child('recordapp' + '/' + directoryName + '/' + fname)

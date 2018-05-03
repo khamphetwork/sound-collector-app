@@ -104,7 +104,7 @@ export default class SoundRecord extends Component {
 		this.setState({ filename: `test-${Date.now()}` })
 		this.setState({wordname: `test`})
 		console.log('blob array: ', [recordedBlob.blob])
-		var file = new File([recordedBlob.blob], { type: "audio/wav"});
+		var file = new File([recordedBlob.blob], { type: "audio/webm"});
         
         let t_allRecordedSound = this.state.allRecordedSound
         t_allRecordedSound.push({
